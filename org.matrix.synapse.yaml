@@ -1,0 +1,73 @@
+app-id: org.matrix.synapse
+runtime: org.freedesktop.Platform
+runtime-version: "19.08"
+sdk: org.freedesktop.Sdk
+command: start
+finish-args:
+  - --share=network
+cleanup:
+- /include
+- /lib/debug
+- /lib/pkgconfig
+- /lib/*.a
+- /lib/*.la
+- /share/aclocal
+- /share/man
+
+modules:
+
+- name: python
+  sources:
+  - type: archive
+    url: https://www.python.org/ftp/python/3.8.2/Python-3.8.2.tar.xz
+    sha512: ca37ad0e7c5845f5f228566aa8ff654a8f428c7d4a5aaabff29baebb0ca3219b31ba8bb2607f89e37cf3fc564f023b8407e53a4f2c47bd99122c1cc222613e37
+
+- name: sqlite
+  sources:
+  - type: archive
+    url: https://www.sqlite.org/2020/sqlite-autoconf-3310100.tar.gz
+    sha512: d85250ba5f78f0c918880f663741709aba662192f04888b2324a0df17affdf5b8540e8428c6c7315119806e7adad758ea281c9b403c0ad94ac6a9bd1b93fd617
+
+- name: python-extra
+  buildsystem: simple
+  build-options:
+    build-args:
+    - --share=network # todo: download python packages manually
+  build-commands:
+  # convenience
+  - ln -s /app/bin/pip3 /app/bin/pip
+  # upgrade pip
+  - pip install --upgrade pip
+  - pip install --upgrade setuptools
+  # install virtualenv
+  - pip install virtualenv
+
+- name: synapse
+  buildsystem: simple
+  build-options:
+    build-args:
+    - --share=network # todo: download python packages manually
+  build-commands:
+  - mkdir -p /app/share/synapse/
+  - virtualenv -p python3 /app/share/synapse/env
+  - source /app/share/synapse/env/bin/activate && pip install matrix-synapse
+  sources:
+  - type: archive
+    url: https://github.com/matrix-org/synapse/archive/v1.12.3.tar.gz
+    sha512: 55b6efb399c2be8d3c6181cd5a0349b8851363117dada2eab85cba10377044ea4bc8b5a5d04e65d10df4c15022c214e1ad54f69f34ca5079bb4be293c722f79d
+
+- name: synapse-config
+  buildsystem: simple
+  build-commands:
+  - mv homeserver.yaml /app/share/synapse/
+  sources:
+  - type: file
+    path: homeserver.yaml
+
+- name: control
+  buildsystem: simple
+  build-commands:
+  - mv start /app/bin/start
+  sources:
+  - type: file
+    path: start
