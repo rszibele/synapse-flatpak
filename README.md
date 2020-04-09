@@ -1,6 +1,6 @@
 # Synapse Flatpak
 
-Ever wanted to run your own matrix server with flatpak?
+Ever wanted to run your own Matrix server with Flatpak?
 
 This is the repository *just for you*.
 
@@ -16,8 +16,8 @@ Make sure you have your `fullchain.pem` and `privkey.pem` ready when installing,
 To install the Synapse Flatpak, run the following commands:
 
 ```bash
-wget TODO
-flatpak install TODO
+wget https://github.com/rszibele/synapse-flatpak/releases/download/v1.12.3-0/synapse-1.12.3-1.x86_64.flatpak
+flatpak install synapse-1.12.3-1.x86_64.flatpak
 ```
 
 During the first run of Synapse you will be guided through the setup with the wizard script.

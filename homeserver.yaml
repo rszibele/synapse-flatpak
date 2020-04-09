@@ -17,7 +17,7 @@ server_name: "%SERVER_NAME%"
 
 # When running as a daemon, the file to store the pid in
 #
-pid_file: /app/var/synapse/homeserver.pid
+pid_file: /var/data/synapse/homeserver.pid
 
 # The path to the web client which will be served at /_matrix/client/
 # if 'webclient' is configured under the 'listeners' configuration.
@@ -410,11 +410,11 @@ retention:
 # instance, if using certbot, use `fullchain.pem` as your certificate,
 # not `cert.pem`).
 #
-tls_certificate_path: "/app/var/synapse/fullchain.pem"
+tls_certificate_path: "/var/data/synapse/fullchain.pem"
 
 # PEM-encoded private key for TLS
 #
-tls_private_key_path: "/app/var/synapse/privkey.pem"
+tls_private_key_path: "/var/data/synapse/privkey.pem"
 
 # Whether to verify TLS server certificates for outbound federation requests.
 #
@@ -531,7 +531,7 @@ acme:
     #
     # If unspecified, we will use CONFDIR/client.key.
     #
-    account_key_file: /app/var/synapse/acme_account.key
+    account_key_file: /var/data/synapse/acme_account.key
 
 # List of allowed TLS fingerprints for this server to publish along
 # with the signing keys for this server. Other matrix servers that
@@ -570,7 +570,7 @@ database:
   # Arguments to pass to the engine
   args:
     # Path to the database
-    database: "/app/var/synapse/homeserver.db"
+    database: "/var/data/synapse/homeserver.db"
 
 # Number of events to cache in memory.
 #
@@ -582,7 +582,7 @@ database:
 # A yaml python logging config file as described by
 # https://docs.python.org/3.7/library/logging.config.html#configuration-dictionary-schema
 #
-log_config: "/app/var/synapse/matrix.szibele.com.log.config"
+log_config: "/var/data/synapse/matrix.szibele.com.log.config"
 
 
 ## Ratelimiting ##
@@ -676,7 +676,7 @@ log_config: "/app/var/synapse/matrix.szibele.com.log.config"
 
 # Directory where uploaded images and attachments are stored.
 #
-media_store_path: "/app/var/synapse/media_store"
+media_store_path: "/var/data/synapse/media_store"
 
 # Media storage providers allow media to be stored in different
 # locations.
@@ -1133,7 +1133,7 @@ form_secret: "79reAJMj;wJVJ6:RwEVkT0k+_pBV#BY1;Eb7g*At.r68c8H9LC"
 
 # Path to the signing key to sign messages with
 #
-signing_key_path: "/app/var/synapse/matrix.szibele.com.signing.key"
+signing_key_path: "/var/data/synapse/matrix.szibele.com.signing.key"
 
 # The keys that the server used to sign messages with but won't use
 # to sign new messages.
@@ -1274,7 +1274,7 @@ saml2_config:
   # Instead of putting the config inline as above, you can specify a
   # separate pysaml2 configuration file:
   #
-  #config_path: "/app/var/synapse/sp_conf.py"
+  #config_path: "/var/data/synapse/sp_conf.py"
 
   # The lifetime of a SAML session. This defines how long a user has to
   # complete the authentication process, if allow_unsolicited is unset.

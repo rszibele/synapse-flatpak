@@ -2,15 +2,15 @@
 
 REGISTER_USER=N
 
-if [ ! -d "/app/var/.configured" ]; then
-  mkdir -p /app/var/
+if [ ! -d "/var/data/.configured" ]; then
+  mkdir -p /var/data/
   
   echo "Copying Synapse"
-  cp -rv /app/share/synapse/ /app/var/
-  cd /app/var/synapse/
+  cp -rv /app/share/synapse/ /var/data/
+  cd /var/data/synapse/
   
   echo "Loading python environment..."
-  source /app/var/synapse/env/bin/activate
+  source /var/data/synapse/env/bin/activate
   
   echo ""
   echo "==================== Setup ===================="
@@ -18,30 +18,29 @@ if [ ! -d "/app/var/.configured" ]; then
   read -p "Please enter the server name: " SERVER_NAME
   
   echo "Generating keys"
-  rm /app/var/synapse/homeserver.yaml
+  rm /var/data/synapse/homeserver.yaml
   python -m synapse.app.homeserver \
     --server-name $SERVER_NAME \
-    --config-path /app/var/synapse/homeserver.yaml \
+    --config-path /var/data/synapse/homeserver.yaml \
     --generate-config \
     --report-stats=no
   
   echo "Modifying Synapse configuration file"
-  cp /app/share/synapse/homeserver.yaml /app/var/synapse/
-  sed -i -e "s/%SERVER_NAME%/$SERVER_NAME/g" /app/var/synapse/homeserver.yaml
+  cp /app/share/synapse/homeserver.yaml /var/data/synapse/
+  sed -i -e "s/%SERVER_NAME%/$SERVER_NAME/g" /var/data/synapse/homeserver.yaml
   
   echo ""
   echo "================================================================================"
   echo "Copy your letsencrypt fullchain.pem to ~/.var/org.matrix.synapse/data/synapse/fullchain.pem"
   echo "Copy your letsencrypt privkey.pem to ~/.var/org.matrix.synapse/data/synapse/privkey.pem"
-  echo "Opening directory with default application."
   echo "================================================================================"
-  xdg-open "~/.var/org.matrix.synapse/data/synapse/"
+  xdg-open "$HOME/.var/app/org.matrix.synapse/data/synapse/"
   read -p "Press enter to continue."
   
   echo -n "Would you like to customize the synapse configuration file? (y/n)? "
   read answer
   if [ "$answer" != "${answer#[Yy]}" ]; then
-    xdg-open "/app/var/synapse/homeserver.yaml"
+    xdg-open "$HOME/.var/app/org.matrix.synapse/data/synapse/homeserver.yaml"
     read -p "Press enter to continue."
   fi
   
@@ -53,15 +52,15 @@ if [ ! -d "/app/var/.configured" ]; then
     read -p "Press enter to continue"
   fi
   
-  touch /app/var/.configured
+  touch /var/data/.configured
 fi
 
 # start synapse
-cd /app/var/synapse
-source /app/var/synapse/env/bin/activate
+cd /var/data/synapse/
+source /var/data/synapse/env/bin/activate
 synctl start
 
 if [ "$REGISTER_USER" == "Y" ]; then
   echo "==================== Register New User ===================="
-  register_new_matrix_user -c /app/var/synapse/homeserver.yaml http://localhost:8008
+  register_new_matrix_user -c /var/data/synapse/homeserver.yaml http://localhost:8008
 fi
