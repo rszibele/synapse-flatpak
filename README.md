@@ -16,7 +16,7 @@ Make sure you have your `fullchain.pem` and `privkey.pem` ready when installing,
 To install the Synapse Flatpak, run the following commands:
 
 ```bash
-wget https://github.com/rszibele/synapse-flatpak/releases/download/v1.12.3-0/synapse-1.12.3-1.x86_64.flatpak
+wget https://github.com/rszibele/synapse-flatpak/releases/download/v1.12.3-1/synapse-1.12.3-1.x86_64.flatpak
 flatpak install synapse-1.12.3-1.x86_64.flatpak
 ```
 
