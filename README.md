@@ -25,6 +25,7 @@ During the first run of Synapse you will be guided through the setup with the wi
 ## Usage
 
 Run Synapse: `flatpak run org.matrix.synapse start`
+
 Stop Synapse: just send the python process a SIGTERM signal
 
 ## TODO
